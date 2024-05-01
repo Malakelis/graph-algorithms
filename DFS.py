@@ -1,24 +1,20 @@
 
+
+
+
 # graph type: dict
-# pre type: dict
-# post type: dict
+# start = vertex
 # visited type: set
 
-post = {}
 
-def dfs(graph, order = None):
-    
-    # indiciate we are using global variable
-    global post
-    
+def dfs(graph, order=None):
     visited = set()  # Keeps track of visited nodes
-    pre = {} 
-    post = {}
-    prev = {} 
-    clock = 1  
+    prev = {}  # Dictionary to store the predecessor of each node
+    pre = {}  # Dictionary to store the previsit number of each node
+    post = {}  # Dictionary to store the postvisit number of each node
+    clock = 1  # Using a list to keep a reference to the mutable integer
 
     cc = 1 # connected components counter
-    ccmap = {}
 
     def previsit(node):
         nonlocal clock
@@ -30,39 +26,29 @@ def dfs(graph, order = None):
         post[node] = clock
         clock += 1
 
-    def getNeighbors(graph, node, order=None):
-        if order == 'r':
-            neighbors = sorted(graph[node], reverse=True)
-        elif order is not None:
-            neighbors = order
-        else:
-            neighbors = graph[node]
-        return neighbors
-
-    # uses call stack to mimick behavior of stack data structure for DFS
     def explore(node):
-        ccmap[node] = cc
         visited.add(node)
         previsit(node)
-        neighbors = getNeighbors(graph, node, order=None)
-        for neighbor in neighbors:
+        for neighbor in graph[node]:
             if neighbor not in visited:
                 prev[neighbor] = node
                 explore(neighbor)
         postvisit(node)
 
-    # default alphabetical order, otherwise reversed
+    # default alphabetical order
     if order is None:
-        order = sorted(graph.keys())
-    elif order == 'r':
-        order = sorted(graph.keys(), reverse=True)
-        
+        order = reversed(sorted(graph.keys()))
+        order = sorted(graph.keys()
+
+        print(order)
+    
     for node in order:
         if node not in visited:
             explore(node)
             cc += 1
-            
-    return prev, pre, post, ccmap
+
+
+    return prev, pre, post
 
 # papadimitriou 3.1
 graph1 = {
@@ -77,7 +63,7 @@ graph1 = {
     'I' : ['F']
 }
 
-
+# Example of using the dfs_explore function
 graph2 = {
     'A': ['B', 'F', 'J'],
     'B': ['A', 'C', 'E'],
@@ -91,79 +77,45 @@ graph2 = {
     'J': ['A', 'I'],
     'K': ['L'],
     'L': ['K']
+
 }
 
-# example 3 reverse DFS
 graph3 = {
-    'A' : ['C'],
-    'B' : ['A', 'D'],
-    'C' : ['B', 'E', 'F'],
-    'D' : [],
-    'E' : ['F', 'G', 'H', 'A'],
-    'F' : ['D'],
-    'G' : ['H'],
-    'H' : ['F']
-}
 
-# hw 2.1
-graph0 = {
-    'A' : ['D','G'],
-    'B' : ['F','G','L'],
-    'C' : ['B','E'],
-    'D' : ['G','H'],
-    'E' : ['A','J'],
-    'F' : ['B'],
-    'G' : ['H'],
-    'H' : ['B', 'L'],
-    'I' : ['K'],
-    'J' : ['F', 'L'],
-    'K' : ['D'],
-    'L' : ['E','H','K']
+'A' : ['C'],
+'B' : ['A', 'D'],
+'C' : ['B', 'E', 'F'],
+'D' : [],
+'E' : ['F', 'G', 'H'],
+'F' : ['D'],
+'G' : ['H'],
+'H' : ['F']
 }
 
 
-def graph_print(order = None):
-    prev, pre, post, cc = dfs(graph, order=None)
-    for (vertex, pre), (vertex2, pre2) in zip(sorted(pre.items()), sorted(post.items())):
-        print(vertex + "'s pre is " + str(pre) + ", post is " + str(pre2))
-    print("Connected Components: " + str(cc))
+graph = graph1
+
+prev, pre, post = dfs(graph, 'A')
+prev, pre, post = dfs(graph, 'G')
+
+
+
+# zip allows to iterate across two dictionaries
+# post not sorted
+
+for (vertex, pre), (vertex2, pre2) in zip(sorted(pre.items()), sorted(post.items())):
+    print(vertex + "'s pre is " + str(pre) + ", post is " + str(pre2))
+
+
 
 def transpose(graph):
-    transposed = {node: [] for node in graph}
+    transposed = {node: [] for node in graph}  # Initialize empty lists for all nodes
     for node in graph:
         for neighbor in graph[node]:
             transposed[neighbor].append(node)  # Reverse the edge
     return transposed
 
-
-# scc algorithm
-# construct G^R which is transposed graph
-# run DFS on tranposed graph and obtain post numbers in descending order (first will be a sink)
-# run DFS with that priority to obtain strongly connected components
-
-def SCC(graph):
-    graph_transpose = transpose(graph)
-    prev, pre, post, cc = dfs(graph_transpose)
-    print(post)
-    post = sorted(post.keys(), key = post.get, reverse=True) # reverse linearized order by post numbers
-    print(post)
-    
-    prev, pre, post, cc = dfs(graph, order=post)
-
-    # graph print algorithm
-    for (vertex, pre), (vertex2, pre2) in zip(sorted(pre.items()), sorted(post.items())):
-        print(vertex + "'s pre is " + str(pre) + ", post is " + str(pre2))
-    print("Strongly Connected Components: " + str(cc))
-    print("Previous pointers " + str(prev))
-
-
-graph = graph0
-
-SCC(graph)
-
-# r = reversed otherwise none
-#graph_print()
-
+print(graph.keys())
 
 
 
