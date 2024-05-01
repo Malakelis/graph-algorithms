@@ -157,7 +157,7 @@ def SCC(graph):
     print("Previous pointers " + str(prev))
 
 
-graph = graph0
+graph = graph3
 
 SCC(graph)
 
