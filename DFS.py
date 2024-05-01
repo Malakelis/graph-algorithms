@@ -144,7 +144,6 @@ def transpose(graph):
 def SCC(graph):
     graph_transpose = transpose(graph)
     prev, pre, post, cc = dfs(graph_transpose)
-    
     print(post)
     post = sorted(post.keys(), key = post.get, reverse=True) # reverse linearized order by post numbers
     print(post)
@@ -155,6 +154,7 @@ def SCC(graph):
     for (vertex, pre), (vertex2, pre2) in zip(sorted(pre.items()), sorted(post.items())):
         print(vertex + "'s pre is " + str(pre) + ", post is " + str(pre2))
     print("Strongly Connected Components: " + str(cc))
+    print("Previous pointers " + str(prev))
 
 
 graph = graph0
