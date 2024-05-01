@@ -163,11 +163,3 @@ SCC(graph)
 
 # r = reversed otherwise none
 #graph_print()
-
-
-
-
-
-
-
-
