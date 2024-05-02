@@ -121,8 +121,25 @@ graph0 = {
     'L' : ['E','H','K']
 }
 
+graph4 = {
+    'A' : ['E'],
+    'B' : ['F'],
+    'C' : ['G','K'],
+    'D' : ['H','I','M','N'],
+    'E' : ['A','L'],
+    'F' : ['G','J'],
+    'G' : ['C'],
+    'H' : ['N'],
+    'I' : ['N'],
+    'J' : ['B'],
+    'K' : ['G'],
+    'L' : ['A','M'],
+    'M' : ['F'],
+    'N' : ['C','D']
+}
 
-def graph_print(order = None):
+
+def dfs_print(graph, order = None):
     prev, pre, post, cc = dfs(graph, order=None)
     for (vertex, pre), (vertex2, pre2) in zip(sorted(pre.items()), sorted(post.items())):
         print(vertex + "'s pre is " + str(pre) + ", post is " + str(pre2))
@@ -157,9 +174,13 @@ def SCC(graph):
     print("Previous pointers " + str(prev))
 
 
-graph = graph3
+graph = graph4
 
-SCC(graph)
+#SCC(graph)
+
+#print(transpose(graph))
 
 # r = reversed otherwise none
-#graph_print()
+#dfs_print()
+
+dfs_print(transpose(graph))
