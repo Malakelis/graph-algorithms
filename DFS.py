@@ -64,6 +64,17 @@ def dfs(graph, order = None):
             
     return prev, pre, post, ccmap
 
+graph = {
+    'A' : ['D', 'G', 'H'],
+    'B' : [],
+    'C' : ['F'],
+    'D' : ['E'],
+    'E' : ['A', 'B'],
+    'F' : [],
+    'G' : [],
+    'H' : ['C', 'F']
+}
+
 # papadimitriou 3.1
 graph1 = {
     'A': ['B', 'E'],
@@ -141,7 +152,7 @@ graph4 = {
 
 def dfs_print(graph, order = None):
     prev, pre, post, cc = dfs(graph, order=None)
-    for (vertex, pre), (vertex2, pre2) in zip(sorted(pre.items()), sorted(post.items())):
+    for (vertex, pre), (vertex2, pre2) in zip((pre.items()), (post.items())):    # if want sorted by letter do sorted pre.items() and post.items()
         print(vertex + "'s pre is " + str(pre) + ", post is " + str(pre2))
     print("Connected Components: " + str(cc))
 
@@ -174,7 +185,8 @@ def SCC(graph):
     print("Previous pointers " + str(prev))
 
 
-graph = graph4
+graph = graph
+dfs_print(graph)
 
 #SCC(graph)
 
@@ -183,4 +195,4 @@ graph = graph4
 # r = reversed otherwise none
 #dfs_print()
 
-dfs_print(transpose(graph))
+#dfs_print(transpose(graph))

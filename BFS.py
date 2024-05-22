@@ -6,6 +6,7 @@ def bfs(graph, start_vertex):
 
     queue = deque([start_vertex])
     while queue:
+        print(queue)
         current_vertex = queue.popleft()
         for neighbor in graph[current_vertex]:
             if distance[neighbor] == float('inf'):
@@ -14,7 +15,7 @@ def bfs(graph, start_vertex):
     return distance
 
 # Example graph represented as an adjacency list
-graph = {
+graph0 = {
     'A': ['B', 'D'],
     'B': ['A', 'C', 'D', 'E'],
     'C': ['B', 'E'],
@@ -23,6 +24,17 @@ graph = {
     'F': ['D', 'E', 'G'],
     'G': ['F', 'H'],
     'H': ['G']
+}
+
+graph = {
+    'A' : ['D', 'G', 'H'],
+    'B' : [],
+    'C' : ['F'],
+    'D' : ['E'],
+    'E' : ['A', 'B'],
+    'F' : [],
+    'G' : [],
+    'H' : ['C', 'F']
 }
 
 # Running BFS from vertex 'A'
